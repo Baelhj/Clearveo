@@ -1,6 +1,18 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8080/api/auth";
+const API_URL = "http://127.0.0.1:8000/api/auth";
+
+// verify token
+export const verifyToken = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // Function to register a user (Sign Up)
 export const register = async (username, email, password) => {
@@ -25,7 +37,7 @@ export const register = async (username, email, password) => {
 export const login = async (username, password) => {
   try {
     const response = await axios.post(`${API_URL}/login/`, {
-        username,
+      username,
       password,
     });
     return response.data;
@@ -34,6 +46,27 @@ export const login = async (username, password) => {
       "Login error: ",
       error.response ? error.response.data : error.message
     );
+    throw error;
+  }
+};
+
+export const refreshToken = async () => {
+  const refreshToken = localStorage.getItem("refresh_token");
+  console.log("trying to refresh a token");
+
+  if (!refreshToken) {
+    throw new Error("no refresh token found!");
+  }
+
+  try {
+    const response = await axios.post(`${API_URL}/refresh/`, {
+      refresh: refreshToken,
+    });
+
+    const { access } = response.data;
+    localStorage.setItem("access_token", access);
+    return access;
+  } catch (error) {
     throw error;
   }
 };

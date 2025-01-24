@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { register } from "@/api/auth"; // Import register function
 import { useRouter } from "next/navigation"; // Use Next.js Router
 
@@ -10,6 +10,14 @@ const Signup = () => {
   const [password, setPassword] = useState("");
 
   const router = useRouter();
+
+   useEffect(() => {
+      const token = localStorage.getItem("access_token");
+  
+      if (token) {
+        router.push("/dashboard");
+      }
+    }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

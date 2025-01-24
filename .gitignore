@@ -308,3 +308,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+backend/backend/settings.py

@@ -1,10 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { login } from "@/api/auth"; // Import register function
 import { useRouter } from "next/navigation"; // Use Next.js Router
 
 const Login = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, []);
+
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -17,7 +25,6 @@ const Login = () => {
 
       localStorage.setItem("access_token", access);
       localStorage.setItem("refresh_token", refresh);
-
 
       alert("login successfully!");
       router.push("/dashboard");
@@ -41,7 +48,7 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
       />
-      <button type="submit">Sign Up</button>
+      <button type="submit">Log In</button>
     </form>
   );
 };
