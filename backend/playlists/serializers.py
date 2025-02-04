@@ -12,4 +12,4 @@ class PlaylistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Playlist
-        fields = ['name', 'desc', 'videos']
+        fields = ['id', 'name', 'desc', 'videos']

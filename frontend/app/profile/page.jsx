@@ -3,6 +3,7 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "@/app/profile/layout";
 import { createPly, getPlys } from "@/api/plyvid";
+import Link from "next/link";
 
 const page = () => {
   const userData = useContext(UserContext);
@@ -27,8 +28,10 @@ const page = () => {
 
     try {
       await createPly(name, desc);
-      const updatedPlaylists = await getPlys();
-      if (updatedPlaylists) setPlaylists(updatedPlaylists);
+      const newPlaylist = { id: Date.now(), name, desc };
+      setPlaylists((prev) => [...prev, newPlaylist]);
+      console.log(playlists);
+
       setName("");
       setDesc("");
 
@@ -72,15 +75,21 @@ const page = () => {
       <h2>Playlists</h2>
       <br />
 
-      <ul>
-        {playlists.map((playlist) => (
-          <li key={playlist.id}>
-            <p>{playlist.name}</p>
-            <p>{playlist.desc}</p>
-            <br />
-          </li>
-        ))}
-      </ul>
+      {playlists.length > 0 ? (
+        <ul>
+          {playlists.map((playlist) => (
+            <Link href={`/profile/${playlist.id}`}>
+            <li key={playlist.id}>
+              <p>{playlist.name}</p>
+              <p>{playlist.desc}</p>
+              <br />
+            </li>
+            </Link>
+          ))}
+        </ul>
+      ) : (
+        <p>No playlists yet. create one!</p>
+      )}
     </>
   );
 };

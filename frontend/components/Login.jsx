@@ -9,7 +9,7 @@ const Login = () => {
     const token = localStorage.getItem("access_token");
 
     if (token) {
-      router.push("/dashboard");
+      router.push("/profile");
     }
   }, []);
 
@@ -27,7 +27,7 @@ const Login = () => {
       localStorage.setItem("refresh_token", refresh);
 
       alert("login successfully!");
-      router.push("/dashboard");
+      router.push("/profile");
     } catch (error) {
       console.error("There was an error during login!", error);
       alert("Login failed!");
