@@ -15,7 +15,7 @@ const Signup = () => {
       const token = localStorage.getItem("access_token");
   
       if (token) {
-        router.push("/dashboard");
+        router.push("/profile");
       }
     }, []);
 
@@ -23,11 +23,10 @@ const Signup = () => {
     e.preventDefault();
     try {
       await register(username, email, password);
-      alert("User registered successfully!");
+      console.log("User registered successfully!");
       router.push("/login");
     } catch (error) {
       console.error("There was an error during registration:", error);
-      alert("Error during signup!");
     }
   };
 
