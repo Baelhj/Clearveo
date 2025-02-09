@@ -20,12 +20,18 @@ class VideoViewSet(ModelViewSet):
     serializer_class = VideoSerializer
 
     def get_queryset(self):
+        print("it's getting videos zzzz")
         playlist_id = self.kwargs.get('playlist_pk')
         playlist = get_object_or_404(Playlist, id=playlist_id, user=self.request.user)
         return Video.objects.filter(playlist=playlist)
     
     def perform_create(self, serializer):
+        print("it's creating videos zzzz")
+
         playlist_id = self.kwargs.get('playlist_pk')
+        print(playlist_id)
+        print("KWARGS:", self.kwargs)
+
         playlist = get_object_or_404(Playlist, id=playlist_id, user=self.request.user)
         serializer.save(playlist=playlist)
 
