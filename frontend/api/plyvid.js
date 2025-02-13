@@ -89,6 +89,7 @@ export const getVids = async (playlistId) => {
     return response.data;
   } catch (error) {
     console.error("problem getting and listing the videos ", error);
+    return [];
   }
 };
 

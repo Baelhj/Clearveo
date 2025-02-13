@@ -21,8 +21,6 @@ const page = () => {
     fetchPlaylists();
   }, []);
 
-  console.log(playlists);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,6 +38,7 @@ const page = () => {
       console.log("Problem Creating a playlist :(", error);
     }
   };
+  
 
   return (
     <>

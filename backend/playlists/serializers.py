@@ -5,7 +5,7 @@ from .models import Playlist, Video
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
-        fields = ['url', 'position']
+        fields = ['id', 'url', 'position']
 
 class PlaylistSerializer(serializers.ModelSerializer):
     videos = VideoSerializer(many=True, read_only=True)
