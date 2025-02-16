@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .serializers import PlaylistSerializer, VideoSerializer
 from .models import Playlist, Video
+from rest_framework.decorators import action
+
 
 class PlaylistViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -20,14 +22,11 @@ class VideoViewSet(ModelViewSet):
     serializer_class = VideoSerializer
 
     def get_queryset(self):
-        print("it's getting videos zzzz")
         playlist_id = self.kwargs.get('playlist_pk')
         playlist = get_object_or_404(Playlist, id=playlist_id, user=self.request.user)
         return Video.objects.filter(playlist=playlist)
     
     def perform_create(self, serializer):
-        print("it's creating videos zzzz")
-
         playlist_id = self.kwargs.get('playlist_pk')
         print(playlist_id)
         print("KWARGS:", self.kwargs)
@@ -35,4 +34,9 @@ class VideoViewSet(ModelViewSet):
         playlist = get_object_or_404(Playlist, id=playlist_id, user=self.request.user)
         serializer.save(playlist=playlist)
 
-
+    @action(detail=False, methods=['get'], url_path='by-link/(?P<link_video_id>[^/.]+)')
+    def get_video_by_link_id(self, request, playlist_pk=None, link_video_id=None):
+        playlist = get_object_or_404(Playlist, id=playlist_pk, user=request.user)
+        video = get_object_or_404(Video, playlist=playlist,link_video_id=link_video_id, )
+        serializer = self.get_serializer(video)
+        return Response(serializer.data)

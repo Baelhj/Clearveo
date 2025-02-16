@@ -11,6 +11,7 @@ class Playlist(models.Model):
 
 class Video(models.Model):
     url = models.URLField(max_length=200)
+    link_video_id = models.CharField(max_length=25, blank=True, null=True)
     playlist = models.ForeignKey(Playlist, related_name='videos', on_delete=models.CASCADE)
     position = models.PositiveIntegerField()
 

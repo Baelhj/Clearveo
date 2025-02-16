@@ -70,11 +70,12 @@ export const deletePly = async (id) => {
 /// API Videos Section ///
 
 // Creating a video
-export const createVid = async (playlistId, url, position) => {
+export const createVid = async (playlistId, url, position, link_video_id) => {
   try {
     const response = await api.post(`/playlists/${playlistId}/videos/`, {
       url,
       position,
+      link_video_id,
     });
     return response.data;
   } catch (error) {
@@ -96,7 +97,7 @@ export const getVids = async (playlistId) => {
 // Getting a single video when clicked
 export const getVid = async (playlistId, videoId) => {
   try {
-    const response = await api.get(`/playlists/${playlistId}/videos/${videoId}/`);
+    const response = await api.get(`/playlists/${playlistId}/videos/by-link/${videoId}/`);
     return response.data;
   } catch (error) {
     console.error("problem getting a video ", error);
